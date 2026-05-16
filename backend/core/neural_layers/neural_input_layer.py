@@ -309,7 +309,7 @@ class InputLayer:
             ext: File extension
 
         Returns:
-            Language name
+            Language identifier
         """
         lang_map = {
             ".py": "Python",
@@ -334,3 +334,7 @@ class InputLayer:
             ".svelte": "Svelte",
         }
         return lang_map.get(ext, "Unknown")
+
+
+# 兼容性别名
+NeuralInputLayer = InputLayer

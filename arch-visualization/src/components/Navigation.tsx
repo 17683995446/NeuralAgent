@@ -4,11 +4,11 @@ import { useAppStore } from '../store/useAppStore'
 import { cn } from '../utils/constants'
 
 const navItems = [
-  { path: '/', icon: Home, label: 'Home' },
-  { path: '/architecture', icon: Layers, label: 'Architecture' },
-  { path: '/flow', icon: GitBranch, label: 'Flow' },
-  { path: '/sequence', icon: Clock, label: 'Sequence' },
-  { path: '/monitor', icon: Activity, label: 'Monitor' },
+  { path: '/', icon: Home, label: '首页' },
+  { path: '/architecture', icon: Layers, label: '架构' },
+  { path: '/flow', icon: GitBranch, label: '流程' },
+  { path: '/sequence', icon: Clock, label: '时序' },
+  { path: '/monitor', icon: Activity, label: '监控' },
 ]
 
 export function Navigation() {
@@ -24,7 +24,7 @@ export function Navigation() {
             </div>
             <div className="hidden sm:block">
               <h1 className="font-bold text-white text-lg">NeuralAgent</h1>
-              <p className="text-xs text-slate-400">Architecture View</p>
+              <p className="text-xs text-slate-400">架构视图</p>
             </div>
           </div>
         </div>
@@ -57,10 +57,10 @@ export function Navigation() {
 
         <div className="p-4 border-t border-slate-700/50">
           <div className="hidden sm:block">
-            <p className="text-xs text-slate-500 mb-2">Status</p>
+            <p className="text-xs text-slate-500 mb-2">系统状态</p>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-sm text-emerald-400">System Active</span>
+              <span className="text-sm text-emerald-400">系统运行中</span>
             </div>
           </div>
         </div>

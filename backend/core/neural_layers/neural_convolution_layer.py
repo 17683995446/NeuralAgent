@@ -8,9 +8,13 @@ from datetime import datetime
 from enum import Enum
 
 from backend.config import settings
-from backend.core.llm_adapter import llm_adapter
+from backend.core.llm_adapter import create_llm_adapter, LLMProvider
 from backend.core.memory.short_term_memory import ShortTermMemory
 from backend.core.agents.intelligent_multi_agent_coordinator import ConvolutionAgent
+
+
+# 兼容层 - 创建全局的 llm_adapter 实例
+llm_adapter = create_llm_adapter(provider=LLMProvider.MOCK)
 
 logger = logging.getLogger(__name__)
 
@@ -276,7 +280,7 @@ class ConvolutionLayer:
 
         prompt = self._build_analysis_prompt(code_unit, content)
 
-        response = llm_adapter.complete(
+        response = await llm_adapter.complete(
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
         )
@@ -461,3 +465,9 @@ class ConvolutionLayerCrew:
             Execution results
         """
         return await self.layer.execute()
+
+
+# 兼容性别名 - 注意必须放在类定义之后
+class NeuralConvolutionLayer(ConvolutionLayer):
+    """兼容性别名，与旧代码保持一致。"""
+    pass

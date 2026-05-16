@@ -1,0 +1,58 @@
+# NeuralAgent 配置模板
+# 复制为 config.yaml 并根据需要修改
+
+# 应用配置
+app_name: "NeuralAgent"
+environment: "development"
+debug: true
+log_level: "INFO"
+
+# API 配置
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins: ["*"]
+  enable_websocket: true
+  enable_docs: true
+
+# LLM 配置
+llm:
+  provider: "mock"  # 可选: mock, openai, anthropic, ollama, siliconflow
+  model: "gpt-4o-mini"
+  api_key: ""  # 填写你的 API Key
+  base_url: ""  # 可选，自定义 API 基础地址
+  temperature: 0.7
+  max_tokens: 1024
+  timeout: 30
+  max_retries: 3
+
+# 缓存配置
+cache:
+  enabled: true
+  l1_max_size: 1000
+  l1_default_ttl: 3600
+  enable_l2: false
+  redis_url: "redis://localhost:6379/0"
+
+# 监控配置
+monitoring:
+  enabled: true
+  prometheus_port: 8001
+  enable_metrics: true
+  enable_health_check: true
+
+# 记忆系统配置
+memory:
+  backend: "inmemory"  # 可选: inmemory, redis
+  redis_url: null
+  enable_enhanced: true
+  enable_emotional_memory: true
+  enable_intent_prediction: true
+  enable_cross_session: true
+
+# 工作流配置
+workflow:
+  enabled: true
+  parallel_execution: true
+  max_workflows: 100
+  default_timeout: 300

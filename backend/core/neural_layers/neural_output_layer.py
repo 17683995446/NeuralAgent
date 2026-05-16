@@ -353,3 +353,7 @@ class OutputLayer:
 {markdown(md_content)}
 </body>
 </html>"""
+
+
+# 兼容性别名
+NeuralOutputLayer = OutputLayer

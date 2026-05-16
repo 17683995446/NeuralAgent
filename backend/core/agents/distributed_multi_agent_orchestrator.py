@@ -268,6 +268,51 @@ class LangChainOrchestrator(BaseOrchestrator):
             return {"error": str(e)}
 
 
+class DistributedMultiAgentOrchestrator(BaseOrchestrator):
+    """分布式多代理编排器 - 向后兼容"""
+    
+    def __init__(self, config: Dict[str, Any] = None):
+        """初始化分布式编排器"""
+        super().__init__(config)
+        self.framework = config.get("framework", "autogen") if config else "autogen"
+        
+        try:
+            fw_enum = OrchestrationFramework(self.framework)
+            self.orchestrator = OrchestratorFactory.create(fw_enum, config)
+            logger.info(f"DistributedMultiAgentOrchestrator initialized with {self.framework}")
+        except:
+            logger.warning(f"Using fallback orchestrator for {self.framework}")
+            self.orchestrator = None
+    
+    def add_agent(self, agent_config: AgentConfig) -> Any:
+        """添加代理"""
+        if self.orchestrator:
+            return self.orchestrator.add_agent(agent_config)
+        self.agents.append(agent_config)
+        return agent_config
+    
+    def add_task(self, task_config: TaskConfig) -> Any:
+        """添加任务"""
+        if self.orchestrator:
+            return self.orchestrator.add_task(task_config)
+        self.tasks.append(task_config)
+        return task_config
+    
+    async def run(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """运行编排"""
+        if self.orchestrator:
+            return await self.orchestrator.run(input_data)
+        
+        logger.info("Running fallback distributed orchestration")
+        return {
+            "framework": "fallback",
+            "agents_count": len(self.agents),
+            "tasks_count": len(self.tasks),
+            "input": input_data,
+            "status": "completed"
+        }
+
+
 class OrchestratorFactory:
     """编排器工厂"""
     

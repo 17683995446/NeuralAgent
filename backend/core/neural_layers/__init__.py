@@ -151,6 +151,16 @@ try:
 except ImportError as e:
     logger.warning(f"Failed to import neural_backward_propagation_layer: {e}")
 
+# 简单的神经管道（新增）
+try:
+    from .simple_pipeline import (
+        NeuralLayer,
+        NeuralPipeline,
+        get_neural_pipeline
+    )
+except ImportError as e:
+    logger.warning(f"Failed to import simple_pipeline: {e}")
+
 
 __all__ = [
     # Layer 1
@@ -217,6 +227,11 @@ __all__ = [
     
     # Layer 18
     "NeuralBackwardPropagationLayer",
+    
+    # 简单管道
+    "NeuralLayer",
+    "NeuralPipeline",
+    "get_neural_pipeline",
 ]
 
 logger.info("Neural Layers Module loaded successfully - 18 layers available")

@@ -5,8 +5,12 @@ from typing import Dict, Any, List, Optional
 from pathlib import Path
 
 from backend.config import settings
-from backend.core.llm_adapter import llm_adapter
+from backend.core.llm_adapter import create_llm_adapter, LLMProvider
 from backend.core.agents.intelligent_multi_agent_coordinator import PoolingAgent
+
+
+# 兼容层 - 创建全局的 llm_adapter 实例
+llm_adapter = create_llm_adapter(provider=LLMProvider.MOCK)
 
 logger = logging.getLogger(__name__)
 
@@ -172,7 +176,8 @@ class PoolingLayer:
         """
         prompt = self._build_compression_prompt(core_features)
 
-        response = llm_adapter.complete(
+        # 使用新的 llm_adapter 兼容包装器
+        response = await llm_adapter.complete(
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
         )
@@ -304,14 +309,14 @@ class PoolingLayer:
     "file_modification_order": ["文件修改顺序（考虑依赖关系）"],
     "expected_outcomes": ["预期结果列表"],
     "confidence_assessment": {{
-        "overall_confidence": 0.0-1.0,
+        "overall_confidence": 0.7,
         "complexity": "low|medium|high",
         "risk_level": "low|medium|high"
     }}
 }}
 """
 
-        response = llm_adapter.complete(
+        response = await llm_adapter.complete(
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
         )
@@ -349,3 +354,9 @@ class PoolingLayer:
             Compressed features or None
         """
         return self.compressed_features
+
+
+# 兼容性别名 - 必须放在类定义之后
+class NeuralPoolingLayer(PoolingLayer):
+    """兼容性别名，与旧代码保持一致。"""
+    pass

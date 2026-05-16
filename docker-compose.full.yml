@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: neural-agent-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - neural-agent-network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: neural-agent-prometheus
+    restart: always
+    ports:
+      - "9090:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml
+      - '--storage.tsdb.path=/prometheus
+      - '--web.enable-lifecycle'
+    networks:
+      - neural-agent-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: neural-agent-grafana
+    restart: always
+    ports:
+      - "3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+    networks:
+      - neural-agent-network
+
+  neural-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neural-agent
+    restart: always
+    depends_on:
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000
+      - "8001:8001
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_API_BASE=${LLM_API_BASE}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - REDIS_URL=redis://redis:6379/0
+      - CACHE_ENABLE_L2=true
+      - MEMORY_BACKEND=redis
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - METRICS_ENABLED=true
+      - METRICS_PORT=8001
+      - PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus_multiproc
+    volumes:
+      - ./app_config.yaml:/app/app_config.yaml:ro
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - neural-agent-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  nginx:
+    image: nginx:alpine
+    container_name: neural-agent-nginx
+    restart: always
+    ports:
+      - "80:80
+      - "443:443
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - neural-agent
+    networks:
+      - neural-agent-network
+
+volumes:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  neural-agent-network:
+    driver: bridge

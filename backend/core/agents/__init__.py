@@ -1,18 +1,34 @@
-"""Agents Module - Agent系统模块
-
-包含多Agent协调和编排功能。
 """
+NeuralAgent - Agent协作系统包
+多Agent协作系统
+"""
+from .base import (
+    BaseAgent,
+    AgentConfig,
+    AgentType,
+    AgentStatus
+)
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-from .intelligent_multi_agent_coordinator import IntelligentMultiAgentCoordinator
-from .distributed_multi_agent_orchestrator import DistributedMultiAgentOrchestrator
+from .multi_agent import (
+    SimpleAgent,
+    MultiAgentOrchestrator,
+    AgentTask,
+    CollaborationConfig,
+    CollaborationMode,
+    TaskStatus,
+    create_multi_agent_system
+)
 
 __all__ = [
-    "IntelligentMultiAgentCoordinator",
-    "DistributedMultiAgentOrchestrator",
+    "BaseAgent",
+    "SimpleAgent",
+    "MultiAgentOrchestrator",
+    "AgentConfig",
+    "AgentTask",
+    "CollaborationConfig",
+    "AgentType",
+    "AgentStatus",
+    "CollaborationMode",
+    "TaskStatus",
+    "create_multi_agent_system"
 ]
-
-logger.info("Agents module loaded successfully")

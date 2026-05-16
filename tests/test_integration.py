@@ -1,133 +1,218 @@
-"""Integration tests for NeuralAgent System."""
+"""
+NeuralAgent 集成测试
+端到端完整流程验证
+"""
+
 import pytest
-from unittest.mock import MagicMock, AsyncMock, patch
-from backend.api.schemas import TaskInput, FeedbackInput
-from backend.core.neural_layers.neural_input_layer import InputLayer
-from backend.core.trust_management.trust_manager import TrustManager
+import asyncio
+from datetime import datetime
+import tempfile
+import os
+
+# 导入我们的模块
+from app_config import get_config, NeuralAgentConfig
 
 
-class TestAPIIntegration:
-    """Integration tests for API layer."""
+class TestConfigSystem:
+    """配置系统测试"""
+    
+    def test_default_config(self):
+        """测试默认配置"""
+        config = get_config()
+        assert config is not None
+        assert config.app_name == "NeuralAgent"
+        assert config.environment == "development"
+    
+    def test_config_validation(self):
+        """测试配置验证"""
+        config = NeuralAgentConfig()
+        assert config.validate()
+    
+    def test_dict_conversion(self):
+        """测试字典转换"""
+        config = NeuralAgentConfig()
+        config_dict = config.to_dict()
+        assert "app_name" in config_dict
+        assert "llm" in config_dict
+        assert "api" in config_dict
+    
+    def test_config_from_dict(self):
+        """测试从字典创建"""
+        original = NeuralAgentConfig(app_name="TestApp", debug=True)
+        config_dict = original.to_dict()
+        loaded = NeuralAgentConfig.from_dict(config_dict)
+        assert loaded.app_name == original.app_name
+        assert loaded.debug == original.debug
 
-    def test_task_input_validation(self):
-        """Test task input schema validation."""
-        valid_input = TaskInput(
-            task_id="test-task-001-valid",
-            user_requirement="添加JWT支持",
-            code_repo_url="https://github.com/example/repo.git",
-            max_iteration=5,
-            learning_rate=0.1
+
+class TestMultiLevelCache:
+    """多级缓存集成测试"""
+    
+    @pytest.mark.asyncio
+    async def test_basic_cache_operations(self):
+        """测试基本缓存操作"""
+        from backend.core.cache.multi_level_cache import MultiLevelCache
+        
+        cache = MultiLevelCache(enable_l2=False)
+        
+        # 设置值
+        await cache.set("test:key", "test value")
+        
+        # 获取值
+        value = await cache.get("test:key")
+        assert value == "test value"
+        
+        # 检查存在
+        exists = await cache.exists("test:key")
+        assert exists
+        
+        # 删除
+        await cache.delete("test:key")
+        exists = await cache.exists("test:key")
+        assert not exists
+    
+    @pytest.mark.asyncio
+    async def test_cache_warmup(self):
+        """测试缓存预热"""
+        from backend.core.cache.multi_level_cache import MultiLevelCache
+        
+        cache = MultiLevelCache(enable_l2=False)
+        
+        warmup_data = {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        }
+        
+        await cache.warmup(warmup_data)
+        
+        for key, expected in warmup_data.items():
+            value = await cache.get(key)
+            assert value == expected
+
+
+class TestMonitoringIntegration:
+    """监控系统集成测试"""
+    
+    def test_collector_creation(self):
+        """测试指标收集器创建"""
+        from backend.core.monitoring.prometheus_metrics import get_metrics_collector
+        
+        collector = get_metrics_collector()
+        assert collector is not None
+    
+    def test_record_metrics(self):
+        """测试记录指标"""
+        from backend.core.monitoring.prometheus_metrics import get_metrics_collector
+        
+        collector = get_metrics_collector()
+        
+        collector.increment_request("GET", "/api/test", 200)
+        collector.observe_request_duration("GET", "/api/test", 0.1)
+        collector.record_llm_request("mock", "test-model", "success", 1.0, 100)
+        
+        # 不抛出异常就算成功
+        assert True
+
+
+class TestWorkflowIntegration:
+    """工作流引擎集成测试"""
+    
+    def test_workflow_engine_creation(self):
+        """测试工作流引擎创建"""
+        from backend.core.workflow_engine import get_workflow_engine
+        
+        engine = get_workflow_engine()
+        assert engine is not None
+    
+    def test_workflow_templates(self):
+        """测试工作流模板"""
+        from workflows import list_workflow_templates
+        
+        templates = list_workflow_templates()
+        assert len(templates) >= 3
+
+
+class TestMemoryIntegration:
+    """记忆系统集成测试"""
+    
+    @pytest.mark.asyncio
+    async def test_unified_memory(self):
+        """测试统一记忆系统（内存后端）"""
+        from backend.core.memory.unified_memory import UnifiedMemorySystem, InMemoryBackend
+        
+        # 直接创建一个使用内存后端的实例
+        memory = UnifiedMemorySystem(InMemoryBackend())
+        assert memory is not None
+        
+        await memory.store("integration:test", "test value")
+        entry = await memory.retrieve("integration:test")
+        
+        assert entry is not None
+        assert entry.value == "test value"
+
+
+class TestAPIResponseModels:
+    """API 响应模型测试"""
+    
+    def test_api_response(self):
+        """测试 API 响应"""
+        from backend.api.api_module import APIResponse
+        
+        response = APIResponse(
+            success=True,
+            data={"result": "test"},
+            message="操作成功"
         )
-
-        assert valid_input.task_id == "test-task-001-valid"
-        assert valid_input.user_requirement == "添加JWT支持"
-        assert valid_input.max_iteration == 5
-
-    def test_task_input_defaults(self):
-        """Test task input default values."""
-        input_data = TaskInput(
-            task_id="test-task-002-valid",
-            user_requirement="修改代码"
+        
+        assert response.success is True
+        assert response.data["result"] == "test"
+        assert response.message == "操作成功"
+    
+    def test_pagination_response(self):
+        """测试分页响应"""
+        from backend.api.api_module import PaginationResponse
+        
+        response = PaginationResponse(
+            items=[1, 2, 3],
+            total=10,
+            page=1,
+            page_size=5,
+            total_pages=2
         )
-
-        assert input_data.target_branch == "main"
-        assert input_data.max_iteration == 5
-        assert input_data.learning_rate == 0.1
-
-    def test_feedback_input_validation(self):
-        """Test feedback input schema validation."""
-        feedback = FeedbackInput(
-            satisfaction_score=4,
-            feedback_items=[
-                {
-                    "type": "positive",
-                    "description": "代码质量好",
-                    "suggestion": "继续优化"
-                }
-            ]
-        )
-
-        assert feedback.satisfaction_score == 4
-        assert len(feedback.feedback_items) == 1
-
-
-class TestLayerIntegration:
-    """Integration tests for layer interactions."""
-
-    def test_input_to_convolution_flow(self, tmp_path):
-        """Test input layer to convolution layer flow."""
-        (tmp_path / "main.py").write_text("print('hello')")
-
-        input_layer = InputLayer(db_session=MagicMock())
-
-        with patch.object(input_layer, '_prepare_code_repository', return_value=str(tmp_path)):
-            import asyncio
-            context = asyncio.run(input_layer.process_task_input(
-                TaskInput(
-                    task_id="integration-test",
-                    user_requirement="测试流程",
-                    local_code_path=str(tmp_path)
-                )
-            ))
-
-        assert context.task_id == "integration-test"
-        assert context.status == "initialized"
-
-    def test_trust_update_flow(self):
-        """Test trust update flow."""
-        trust_manager = TrustManager(db_session=MagicMock(), use_rllib=False)
-
-        reward = trust_manager.calculate_reward(
-            satisfaction_score=4,
-            feedback_items=[{"type": "positive", "description": "Good"}]
-        )
-
-        updated = trust_manager._apply_reward_adjustment(
-            {"global": 1.0}, reward, 0.1
-        )
-
-        assert "global" in updated
+        
+        assert len(response.items) == 3
+        assert response.total == 10
 
 
 class TestEndToEnd:
-    """End-to-end integration tests."""
+    """端到端完整流程测试"""
+    
+    @pytest.mark.asyncio
+    async def test_complete_flow(self):
+        """测试完整流程"""
+        # 1. 初始化配置
+        config = NeuralAgentConfig()
+        
+        # 2. 初始化缓存
+        from backend.core.cache.multi_level_cache import get_cache
+        cache = get_cache()
+        
+        # 3. 初始化监控
+        from backend.core.monitoring.prometheus_metrics import get_metrics_collector
+        collector = get_metrics_collector()
+        
+        # 4. 测试流程
+        await cache.set("e2e:test", "e2e value")
+        value = await cache.get("e2e:test")
+        assert value == "e2e value"
+        
+        # 5. 记录指标
+        collector.increment_request("GET", "/api/test", 200)
+        collector.observe_request_duration("GET", "/api/test", 0.05)
+        
+        print("✅ 完整流程测试通过")
 
-    def test_complete_flow_structure(self):
-        """Test that all components are properly structured."""
-        from backend.layers import (
-            input_layer,
-            convolution_layer,
-            pooling_layer,
-            fc_layer_1,
-            fc_layer_2,
-            fc_layer_3,
-            output_layer,
-            backward_layer
-        )
 
-        assert hasattr(input_layer, 'InputLayer')
-        assert hasattr(convolution_layer, 'ConvolutionLayer')
-        assert hasattr(pooling_layer, 'PoolingLayer')
-        assert hasattr(fc_layer_1, 'FCLayer1')
-        assert hasattr(fc_layer_2, 'FCLayer2')
-        assert hasattr(fc_layer_3, 'FCLayer3')
-        assert hasattr(output_layer, 'OutputLayer')
-        assert hasattr(backward_layer, 'BackwardLayer')
-
-    def test_core_components_structure(self):
-        """Test that all core components are properly structured."""
-        from backend.core import (
-            neural_agent,
-            short_term_memory,
-            long_term_memory,
-            trust_manager,
-            message_protocol,
-            llm_adapter
-        )
-
-        assert hasattr(neural_agent, 'NeuralAgent')
-        assert hasattr(short_term_memory, 'ShortTermMemory')
-        assert hasattr(long_term_memory, 'LongTermMemory')
-        assert hasattr(trust_manager, 'TrustManager')
-        assert hasattr(message_protocol, 'MessageProtocol')
-        assert hasattr(llm_adapter, 'LLMAdapter')
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

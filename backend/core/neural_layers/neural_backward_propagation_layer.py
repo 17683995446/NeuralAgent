@@ -368,3 +368,7 @@ class FeedbackProcessor:
                 }
 
         return list(aggregated.values())
+
+
+# 兼容性别名
+NeuralBackwardPropagationLayer = BackwardLayer

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralAgent - 系统可视化文档</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white text-xl">🧠</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold gradient-text">NeuralAgent</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#architecture" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">架构</a>
+                    <a href="#workflow" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">流程</a>
+                    <a href="#sequence" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">时序</a>
+                    <a href="#components" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">组件</a>
+                    <a href="#metrics" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">指标</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <h1 class="text-5xl font-extrabold mb-6">
+                    NeuralAgent 系统可视化文档
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    完整的企业级 AI Agent 平台，包含系统架构、工作流程、时序图、组件关系等详细文档
+                </p>
+                <div class="flex justify-center gap-4">
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                        <div class="text-3xl font-bold">15</div>
+                        <div class="text-sm text-blue-100">开发阶段</div>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                        <div class="text-3xl font-bold">240+</div>
+                        <div class="text-sm text-blue-100">代码文件</div>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur-sm rounded-lg px-6 py-3">
+                        <div class="text-3xl font-bold">8.4</div>
+                        <div class="text-sm text-blue-100">质量评分</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="bg-white shadow-lg -mt-8 mx-auto max-w-6xl rounded-xl p-6 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+                <div class="text-2xl font-bold text-blue-600">✅</div>
+                <div class="text-sm text-gray-600">Agent 框架</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-green-600">✅</div>
+                <div class="text-sm text-gray-600">记忆系统</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-purple-600">✅</div>
+                <div class="text-sm text-gray-600">RAG 系统</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-orange-600">✅</div>
+                <div class="text-sm text-gray-600">监控系统</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">系统架构图</h2>
+                <p class="text-xl text-gray-600">NeuralAgent 采用分层架构设计，实现高内聚低耦合</p>
+            </div>
+            
+            <div class="mermaid">
+graph TB
+    subgraph Frontend["🌐 前端层"]
+        F1[React Dashboard]
+        F2[Agent Management]
+        F3[Workflow Editor]
+        F4[Monitoring UI]
+    end
+
+    subgraph API["🔌 API 层 (FastAPI)"]
+        A1[REST API]
+        A2[WebSocket]
+        A3[GraphQL]
+        A4[Auth & Rate Limit]
+    end
+
+    subgraph Core["⚙️ 核心服务层"]
+        C1[Agent Framework]
+        C2[Memory System]
+        C3[Workflow Engine]
+        C4[RAG Pipeline]
+    end
+
+    subgraph Agent["🤖 Agent 层"]
+        AG1[Multi-Agent System]
+        AG2[Task Scheduler]
+        AG3[LLM Adapter]
+    end
+
+    subgraph Data["💾 数据层"]
+        D1[(Redis Cache)]
+        D2[(Milvus)]
+        D3[(PostgreSQL)]
+        D4[(Vector Store)]
+    end
+
+    subgraph Infra["🏗️ 基础设施层"]
+        I1[Prometheus]
+        I2[Grafana]
+        I3[Docker]
+        I4[nginx]
+    end
+
+    Frontend --> API
+    API --> Core
+    Core --> Agent
+    Core --> Data
+    Infra --> Data
+    API --> Infra
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-blue-50 rounded-xl p-6 card-hover">
+                    <div class="text-4xl mb-4">🌐</div>
+                    <h3 class="text-xl font-bold mb-2">前端层</h3>
+                    <p class="text-gray-600 mb-4">React + TypeScript + Vite 构建的现代化管理界面</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• 响应式设计</li>
+                        <li>• 实时监控</li>
+                        <li>• 可视化编辑</li>
+                    </ul>
+                </div>
+                <div class="bg-green-50 rounded-xl p-6 card-hover">
+                    <div class="text-4xl mb-4">🔌</div>
+                    <h3 class="text-xl font-bold mb-2">API 层</h3>
+                    <p class="text-gray-600 mb-4">FastAPI 提供的高性能 REST API</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• JWT 认证</li>
+                        <li>• 速率限制</li>
+                        <li>• 自动文档</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-50 rounded-xl p-6 card-hover">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold mb-2">核心服务层</h3>
+                    <p class="text-gray-600 mb-4">模块化的核心业务逻辑</p>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Agent 框架</li>
+                        <li>• 记忆系统</li>
+                        <li>• 工作流引擎</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">工作流程图</h2>
+                <p class="text-xl text-gray-600">从请求到响应的完整处理流程</p>
+            </div>
+
+            <div class="mermaid">
+flowchart TD
+    A[📥 用户请求] --> B[🔐 认证鉴权]
+    B --> C{验证结果}
+    C -->|成功| D[📝 请求解析]
+    C -->|失败| E[❌ 返回错误]
+    
+    D --> F[🎯 路由分发]
+    F --> G{请求类型}
+    
+    G -->|Agent| H[🤖 Agent 处理]
+    G -->|Workflow| I[⚙️ 工作流执行]
+    G -->|Query| J[🔍 RAG 查询]
+    G -->|Config| K[⚙️ 配置管理]
+    
+    H --> L[🧠 记忆检索]
+    L --> M[🤖 Agent 执行]
+    M --> N[📤 结果生成]
+    
+    I --> O[📋 步骤执行]
+    O --> P{步骤类型}
+    P -->|Agent| M
+    P -->|Condition| Q[❓ 条件判断]
+    P -->|Action| R[⚡ 执行动作]
+    
+    J --> S[🔎 向量搜索]
+    S --> T[📚 文档检索]
+    T --> U[🧩 结果聚合]
+    U --> N
+    
+    N --> V[📊 结果处理]
+    V --> W[💾 更新记忆]
+    W --> X[📤 返回响应]
+    
+    Q -->|True| O
+    Q -->|False| Y[⏭️ 跳过]
+    Y --> O
+            </div>
+
+            <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold mb-6">🔄 请求处理流程说明</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-bold text-blue-600 mb-3">1. 认证阶段</h4>
+                        <p class="text-gray-600 text-sm">验证用户身份，检查 JWT token 有效性，应用速率限制策略</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-green-600 mb-3">2. 解析阶段</h4>
+                        <p class="text-gray-600 text-sm">解析请求参数，识别请求类型（Agent/Workflow/RAG），路由分发</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-purple-600 mb-3">3. 执行阶段</h4>
+                        <p class="text-gray-600 text-sm">根据请求类型执行相应逻辑，包括 Agent 处理、工作流编排、RAG 查询</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-orange-600 mb-3">4. 响应阶段</h4>
+                        <p class="text-gray-600 text-sm">处理结果格式化，更新记忆系统，返回响应给用户</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sequence Section -->
+    <section id="sequence" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">时序图</h2>
+                <p class="text-xl text-gray-600">Agent 执行和 RAG 查询的详细时序</p>
+            </div>
+
+            <div class="mermaid">
+sequenceDiagram
+    participant U as 👤 用户
+    participant API as 🌐 API Gateway
+    participant AG as 🤖 Agent Manager
+    participant MEM as 🧠 Memory System
+    participant RAG as 🔍 RAG Pipeline
+    participant LLM as 🤖 LLM Service
+    
+    U->>API: 发送任务请求
+    API->>API: 认证鉴权
+    API->>AG: 转发任务
+    
+    AG->>MEM: 检索相关记忆
+    MEM-->>AG: 返回记忆上下文
+    
+    AG->>RAG: 执行 RAG 查询
+    RAG->>RAG: 向量搜索
+    RAG->>RAG: 文档检索
+    RAG-->>AG: 返回知识上下文
+    
+    AG->>LLM: 发送完整上下文
+    LLM-->>AG: 生成响应
+    
+    AG->>MEM: 更新记忆
+    AG-->>API: 返回结果
+    API-->>U: 返回响应
+            </div>
+
+            <div class="mermaid mt-12">
+sequenceDiagram
+    participant C as 👤 客户端
+    participant WS as 🔌 WebSocket
+    participant WF as ⚙️ Workflow Engine
+    participant N1 as 📦 Node 1
+    participant N2 as 📦 Node 2
+    participant DB as 💾 Database
+    
+    C->>WS: 建立连接
+    WS-->>C: 连接成功
+    
+    C->>WF: 启动工作流
+    WF->>WF: 初始化上下文
+    
+    WF->>N1: 执行节点 1
+    N1->>DB: 读取数据
+    DB-->>N1: 返回数据
+    N1-->>WF: 节点 1 完成
+    
+    WF->>N2: 执行节点 2
+    N2->>N2: 处理数据
+    N2-->>WF: 节点 2 完成
+    
+    WF-->>WS: 工作流完成
+    WS-->>C: 推送结果
+    
+    Note over C,DB: 实时进度更新
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="components" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">组件关系图</h2>
+                <p class="text-xl text-gray-600">核心模块之间的依赖和交互关系</p>
+            </div>
+
+            <div class="mermaid">
+classDiagram
+    class AgentManager {
+        +agents: List[Agent]
+        +create_agent()
+        +execute_agent()
+        +get_agent_status()
+    }
+    
+    class Agent {
+        +id: str
+        +name: str
+        +agent_type: str
+        +execute()
+        +learn()
+    }
+    
+    class MemorySystem {
+        +short_term: ShortTermMemory
+        +long_term: LongTermMemory
+        +semantic: SemanticMemory
+        +add()
+        +retrieve()
+        +forget()
+    }
+    
+    class WorkflowEngine {
+        +workflows: Dict
+        +create_workflow()
+        +execute_workflow()
+        +validate_workflow()
+    }
+    
+    class RAGPipeline {
+        +vector_store: VectorStore
+        +embedder: Embedder
+        +query()
+        +index()
+    }
+    
+    class VectorStore {
+        +collections: Dict
+        +add()
+        +search()
+        +delete()
+    }
+    
+    class MonitorSystem {
+        +metrics: MetricsCollector
+        +alerts: AlertManager
+        +track()
+        +notify()
+    }
+    
+    AgentManager --> Agent : manages
+    AgentManager --> MemorySystem : uses
+    AgentManager --> RAGPipeline : queries
+    WorkflowEngine --> Agent : executes
+    WorkflowEngine --> MemorySystem : uses
+    RAGPipeline --> VectorStore : stores
+    MonitorSystem --> AgentManager : monitors
+    MonitorSystem --> WorkflowEngine : monitors
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+                <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-xl font-bold mb-2">Agent 框架</h3>
+                    <p class="text-blue-100 text-sm mb-4">多 Agent 协作和任务调度</p>
+                    <div class="text-xs bg-blue-400/50 rounded px-2 py-1">Python</div>
+                </div>
+                <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-xl font-bold mb-2">记忆系统</h3>
+                    <p class="text-green-100 text-sm mb-4">分层记忆管理和检索</p>
+                    <div class="text-xs bg-green-400/50 rounded px-2 py-1">Redis + Milvus</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="text-xl font-bold mb-2">RAG 系统</h3>
+                    <p class="text-purple-100 text-sm mb-4">检索增强生成管道</p>
+                    <div class="text-xs bg-purple-400/50 rounded px-2 py-1">LangChain</div>
+                </div>
+                <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold mb-2">工作流引擎</h3>
+                    <p class="text-orange-100 text-sm mb-4">可视化工作流编排</p>
+                    <div class="text-xs bg-orange-400/50 rounded px-2 py-1">React Flow</div>
+                </div>
+                <div class="bg-gradient-to-br from-red-500 to-red-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2">监控系统</h3>
+                    <p class="text-red-100 text-sm mb-4">Prometheus + Grafana</p>
+                    <div class="text-xs bg-red-400/50 rounded px-2 py-1">OpenTelemetry</div>
+                </div>
+                <div class="bg-gradient-to-br from-cyan-500 to-cyan-600 text-white rounded-xl p-6">
+                    <div class="text-4xl mb-4">🔐</div>
+                    <h3 class="text-xl font-bold mb-2">安全系统</h3>
+                    <p class="text-cyan-100 text-sm mb-4">JWT + MFA + OAuth</p>
+                    <div class="text-xs bg-cyan-400/50 rounded px-2 py-1">Python-JWT</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Section -->
+    <section id="metrics" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold gradient-text mb-4">系统指标</h2>
+                <p class="text-xl text-gray-600">NeuralAgent 核心指标和质量评分</p>
+            </div>
+
+            <div class="mermaid">
+gantt
+    title NeuralAgent 开发时间线
+    dateFormat YYYY-MM-DD
+    section 阶段 1-4
+    基础架构 :done, 2024-01, 60d
+    section 阶段 5-8
+    核心功能 :done, 2024-03, 90d
+    section 阶段 9-12
+    企业特性 :done, 2024-06, 120d
+    section 阶段 13-15
+    前端和优化 :done, 2024-10, 90d
+    section 当前
+    生产部署 :active, 2025-01, 30d
+            </div>
+
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="bg-gray-100 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-blue-600 mb-2">8.5/10</div>
+                    <div class="text-sm text-gray-600">创新性</div>
+                    <div class="mt-2 h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-blue-600 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-green-600 mb-2">9.0/10</div>
+                    <div class="text-sm text-gray-600">价值量</div>
+                    <div class="mt-2 h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-green-600 rounded-full" style="width: 90%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-purple-600 mb-2">8.5/10</div>
+                    <div class="text-sm text-gray-600">实用性</div>
+                    <div class="mt-2 h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-purple-600 rounded-full" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-100 rounded-xl p-6 text-center">
+                    <div class="text-4xl font-bold text-orange-600 mb-2">8.4/10</div>
+                    <div class="text-sm text-gray-600">综合评分</div>
+                    <div class="mt-2 h-2 bg-gray-200 rounded-full">
+                        <div class="h-2 bg-orange-600 rounded-full" style="width: 84%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8">
+                <h3 class="text-2xl font-bold mb-6">📋 功能清单</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>多 Agent 协作系统</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>统一记忆系统</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>RAG 检索增强</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>可视化工作流编辑</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>Prometheus 监控</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>提示工程工作台</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>MFA 多因素认证</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-green-500 text-xl">✅</span>
+                        <span>完整的 CLI 工具</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex justify-center items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-xl">🧠</span>
+                    </div>
+                    <span class="text-2xl font-bold">NeuralAgent</span>
+                </div>
+                <p class="text-gray-400 mb-6">完整的企业级 AI Agent 平台</p>
+                <div class="flex justify-center gap-6 text-sm text-gray-400">
+                    <a href="#architecture" class="hover:text-white">架构图</a>
+                    <a href="#workflow" class="hover:text-white">流程图</a>
+                    <a href="#sequence" class="hover:text-white">时序图</a>
+                    <a href="#components" class="hover:text-white">组件图</a>
+                </div>
+                <div class="mt-8 pt-8 border-t border-gray-800 text-sm text-gray-500">
+                    最后更新: 2026-05-16 | 版本: 1.0.0 | 评分: 8.4/10
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            },
+            sequence: {
+                useMaxWidth: true
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

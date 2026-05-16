@@ -1,133 +1,48 @@
 version: '3.8'
 
 services:
-  api-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    environment:
-      - REDIS_URL=redis://redis:6379/0
-      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/neural_agent
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-      - MILVUS_URL=http://milvus-standalone:19530
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - LITELLM_API_KEY=${LITELLM_API_KEY:-}
-      - LOG_LEVEL=INFO
-      - ENVIRONMENT=development
-    depends_on:
-      - redis
-      - postgres
-      - rabbitmq
-      - milvus-standalone
-    volumes:
-      - ./task_output:/app/task_output
-      - ./code_repos:/app/code_repos
-    restart: unless-stopped
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
-
-  agent-worker:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    environment:
-      - REDIS_URL=redis://redis:6379/0
-      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/neural_agent
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-      - MILVUS_URL=http://milvus-standalone:19530
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - LITELLM_API_KEY=${LITELLM_API_KEY:-}
-    depends_on:
-      - redis
-      - postgres
-      - rabbitmq
-      - milvus-standalone
-    volumes:
-      - ./task_output:/app/task_output
-      - ./code_repos:/app/code_repos
-    restart: unless-stopped
-
   redis:
-    image: redis:7.2-alpine
-    ports:
-      - "6379:6379"
+    image: redis:7-alpine
+    container_name: neural-agent-redis
+    restart: always
     volumes:
       - redis_data:/data
-    command: redis-server --appendonly yes
-    restart: unless-stopped
-
-  postgres:
-    image: postgres:16-alpine
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=neural_agent
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
-
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    restart: unless-stopped
-
-  etcd:
-    image: quay.io/coreos/etcd:v3.5.5
-    environment:
-      - ETCD_AUTO_COMPACTION_MODE=revision
-      - ETCD_AUTO_COMPACTION_RETENTION=1000
-      - ETCD_QUOTA_BACKEND_BYTES=4294967296
-      - ETCD_SNAPSHOT_COUNT=50000
-    volumes:
-      - etcd_data:/etcd-data
-    command: etcd -advertise-client-urls=http://0.0.0.0:2379 -listen-client-urls http://0.0.0.0:2379 --data-dir /etcd-data
-    restart: unless-stopped
-
-  minio:
-    image: minio/minio:RELEASE.2023-03-20T20-16-00Z
-    environment:
-      - MINIO_ACCESS_KEY=minioadmin
-      - MINIO_SECRET_KEY=minioadmin
-    volumes:
-      - minio_data:/data
-    command: minio server /data
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-    restart: unless-stopped
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - neural-agent-network
 
-  milvus-standalone:
-    image: milvusdb/milvus:v2.4.0
-    command: ["milvus", "run", "standalone"]
-    environment:
-      - ETCD_ENDPOINTS=etcd:2379
-      - MINIO_ADDRESS=minio:9000
-    volumes:
-      - milvus_data:/var/lib/milvus
+  neural-agent:
+    build: .
+    container_name: neural-agent
+    restart: always
     depends_on:
-      - etcd
-      - minio
+      redis:
+        condition: service_healthy
     ports:
-      - "19530:19530"
-      - "9091:9091"
-    restart: unless-stopped
+      - "8000:8000"
+      - "8001:8001"
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-mock}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - REDIS_URL=redis://redis:6379/0
+      - CACHE_ENABLE_L2=true
+      - MEMORY_BACKEND=redis
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+    networks:
+      - neural-agent-network
 
 volumes:
   redis_data:
-  postgres_data:
-  rabbitmq_data:
-  etcd_data:
-  minio_data:
-  milvus_data:
+
+networks:
+  neural-agent-network:
+    driver: bridge

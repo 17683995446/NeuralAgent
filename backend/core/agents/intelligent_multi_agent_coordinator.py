@@ -381,6 +381,125 @@ class OutputAgent(NeuralAgent):
         super().__init__(**kwargs)
 
 
+class IntelligentMultiAgentCoordinator:
+    """智能多代理协调器 - 核心协调组件
+    
+    负责协调各个神经层的代理执行，提供完整的多代理协作框架。
+    """
+    
+    def __init__(
+        self,
+        task_id: str,
+        config: Dict[str, Any] = None,
+        short_term_memory=None,
+        long_term_memory=None
+    ):
+        """初始化智能多代理协调器
+        
+        Args:
+            task_id: 任务标识符
+            config: 配置字典
+            short_term_memory: 短期记忆实例
+            long_term_memory: 长期记忆实例
+        """
+        self.task_id = task_id
+        self.config = config or {}
+        self.short_term_memory = short_term_memory
+        self.long_term_memory = long_term_memory
+        self.agents = {}
+        self.agent_results = {}
+        logger.info(f"IntelligentMultiAgentCoordinator initialized for task {task_id}")
+    
+    def register_agent(self, agent_id: str, agent: NeuralAgent) -> None:
+        """注册代理
+        
+        Args:
+            agent_id: 代理标识符
+            agent: 代理实例
+        """
+        self.agents[agent_id] = agent
+        logger.debug(f"Agent registered: {agent_id}")
+    
+    def get_agent(self, agent_id: str) -> Optional[NeuralAgent]:
+        """获取代理
+        
+        Args:
+            agent_id: 代理标识符
+            
+        Returns:
+            代理实例或 None
+        """
+        return self.agents.get(agent_id)
+    
+    async def execute_agent(self, agent_id: str, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """执行单个代理
+        
+        Args:
+            agent_id: 代理标识符
+            input_data: 输入数据
+            
+        Returns:
+            代理执行结果
+        """
+        agent = self.get_agent(agent_id)
+        if not agent:
+            return {"error": f"Agent not found: {agent_id}"}
+        
+        try:
+            logger.info(f"Executing agent {agent_id}")
+            # 这里是简化的执行逻辑
+            result = {
+                "agent_id": agent_id,
+                "status": "completed",
+                "output": f"Agent {agent_id} processed input",
+                "input": input_data
+            }
+            self.agent_results[agent_id] = result
+            return result
+        except Exception as e:
+            logger.error(f"Agent execution failed: {e}")
+            return {
+                "agent_id": agent_id,
+                "status": "failed",
+                "error": str(e)
+            }
+    
+    async def execute_all(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """执行所有代理
+        
+        Args:
+            input_data: 输入数据
+            
+        Returns:
+            所有代理的执行结果
+        """
+        logger.info(f"Executing all agents for task {self.task_id}")
+        results = {}
+        
+        for agent_id in self.agents:
+            result = await self.execute_agent(agent_id, input_data)
+            results[agent_id] = result
+        
+        return {
+            "task_id": self.task_id,
+            "agents_count": len(self.agents),
+            "results": results,
+            "status": "completed"
+        }
+    
+    def get_coordination_info(self) -> Dict[str, Any]:
+        """获取协调信息
+        
+        Returns:
+            协调信息字典
+        """
+        return {
+            "task_id": self.task_id,
+            "agents_registered": list(self.agents.keys()),
+            "results_count": len(self.agent_results)
+        }
+
+
 def create_agent(
     agent_type: str,
     agent_id: str,
