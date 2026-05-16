@@ -1,0 +1,47 @@
+# Minimal Requirements - For basic development and testing
+# Updated for Python 3.14 compatibility
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+python-multipart>=0.0.12
+
+# LLM统一接口 (核心功能)
+litellm>=1.50.0
+
+# 错误处理与重试（业界标准）
+tenacity>=8.5.0
+pybreaker>=1.0.0
+
+# 监控与可观测性
+prometheus-client>=0.21.0
+
+# 认证与安全
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# 工具库
+gitpython>=3.1.43
+python-dotenv>=1.0.0
+httpx>=0.28.0
+jinja2>=3.1.0
+sqlalchemy>=2.0.0
+markdown>=3.5.0
+redis>=5.0.0
+
+# 代码质量与测试
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+pytest-cov>=5.0.0
+
+# 结构化日志（业界标准）
+structlog>=25.1.0
+python-json-logger>=2.0.0
+
+# 健康检查与监控
+psutil>=6.0.0
+
+# 可选：嵌入模型（可选，无此依赖将自动使用mock）
+# sentence-transformers>=2.2.0
+# 注：如需真实嵌入模型需要此依赖
+# 测试时自动使用mock模式

@@ -1,0 +1,380 @@
+{
+  "generated_at": "2026-05-15T11:26:20.785545",
+  "stats": {
+    "total_defects": 40,
+    "by_category": {
+      "Import Error": 19,
+      "Missing Dependency": 1,
+      "Architecture": 1,
+      "Code Quality": 19
+    },
+    "by_severity": {
+      "MEDIUM": 19,
+      "HIGH": 1,
+      "CRITICAL": 1,
+      "LOW": 19
+    }
+  },
+  "defects": [
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "scripts/unify_architecture.py",
+      "line_number": 101,
+      "code_snippet": "from backend.layers.some_layer import SomeClass",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 36,
+      "code_snippet": "from backend.layers.input_layer import InputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 37,
+      "code_snippet": "from backend.layers.convolution_layer import ConvolutionLayer, ConvolutionGranularity",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 38,
+      "code_snippet": "from backend.layers.pooling_layer import PoolingLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 39,
+      "code_snippet": "from backend.layers.fc_layer_1 import FCLayer1",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 40,
+      "code_snippet": "from backend.layers.fc_layer_2 import FCLayer2",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 41,
+      "code_snippet": "from backend.layers.fc_layer_3 import FCLayer3",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 42,
+      "code_snippet": "from backend.layers.output_layer import OutputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_comprehensive.py",
+      "line_number": 43,
+      "code_snippet": "from backend.layers.backward_layer import BackwardLayer, FeedbackProcessor",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 4,
+      "code_snippet": "from backend.layers.convolution_layer import ConvolutionLayer, ConvolutionGranularity",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 5,
+      "code_snippet": "from backend.layers.pooling_layer import PoolingLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 6,
+      "code_snippet": "from backend.layers.fc_layer_1 import FCLayer1",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 7,
+      "code_snippet": "from backend.layers.fc_layer_2 import FCLayer2",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 8,
+      "code_snippet": "from backend.layers.fc_layer_3 import FCLayer3",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 9,
+      "code_snippet": "from backend.layers.output_layer import OutputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_layers.py",
+      "line_number": 10,
+      "code_snippet": "from backend.layers.backward_layer import BackwardLayer, FeedbackProcessor",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/test_integration.py",
+      "line_number": 5,
+      "code_snippet": "from backend.layers.input_layer import InputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/real_github_project_test.py",
+      "line_number": 258,
+      "code_snippet": "from backend.layers.neural_input_processing_layer import InputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Import Error",
+      "severity": "MEDIUM",
+      "description": "Import from deprecated 'backend.layers' directory",
+      "file_path": "tests/real_github_project_test.py",
+      "line_number": 275,
+      "code_snippet": "from backend.layers.neural_output_generation_layer import OutputLayer",
+      "suggested_fix": "Change to 'backend.core.neural_layers'"
+    },
+    {
+      "category": "Missing Dependency",
+      "severity": "HIGH",
+      "description": "Critical dependency 'redis' not found in requirements-minimal.txt",
+      "file_path": "requirements-minimal.txt",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Add 'redis' to requirements"
+    },
+    {
+      "category": "Architecture",
+      "severity": "CRITICAL",
+      "description": "Duplicate layer directories: layers/ and core/neural_layers/",
+      "file_path": "backend/layers",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consolidate into backend/core/neural_layers (already started, complete removal recommended)"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "scripts/defect_audit.py",
+      "line_number": 236,
+      "code_snippet": "# 2. 检查 TODO/FIXME",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "scripts/defect_audit.py",
+      "line_number": 238,
+      "code_snippet": "if 'TODO' in line or 'FIXME' in line:",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "scripts/defect_audit.py",
+      "line_number": 242,
+      "code_snippet": "description=\"Found TODO/FIXME comment\",",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (674 lines)",
+      "file_path": "tests/e2e_github_test.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "tests/real_project_quality_analysis.py",
+      "line_number": 156,
+      "code_snippet": "# 2. 检查 TODO / FIXME 注释",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "tests/real_project_quality_analysis.py",
+      "line_number": 158,
+      "code_snippet": "if 'TODO' in line or 'FIXME' in line:",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "Found TODO/FIXME comment",
+      "file_path": "tests/real_project_quality_analysis.py",
+      "line_number": 164,
+      "code_snippet": "description=\"Found TODO/FIXME comment\",",
+      "suggested_fix": ""
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (591 lines)",
+      "file_path": "tests/real_github_deep_test.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (652 lines)",
+      "file_path": "tests/real_github_project_test.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (516 lines)",
+      "file_path": "backend/agent/neural_agent.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (727 lines)",
+      "file_path": "backend/processing/vector_storing/vector_store_manager.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (644 lines)",
+      "file_path": "backend/processing/large_scale/parallel_processor.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (819 lines)",
+      "file_path": "backend/core/quality_assurance/product_quality_scorer.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (872 lines)",
+      "file_path": "backend/core/quality_assurance/ultimate_product_quality_scorer.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (1243 lines)",
+      "file_path": "backend/core/quality_assurance/enhanced_product_quality_scorer.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (591 lines)",
+      "file_path": "backend/core/task_management/intelligent_task_decomposer_service.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (1128 lines)",
+      "file_path": "backend/core/neural_layers/neural_fully_connected_layers.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (1400 lines)",
+      "file_path": "backend/core/memory/enhanced_memory_system.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    },
+    {
+      "category": "Code Quality",
+      "severity": "LOW",
+      "description": "File is very long (554 lines)",
+      "file_path": "backend/core/infrastructure/security/rate_limiter.py",
+      "line_number": null,
+      "code_snippet": null,
+      "suggested_fix": "Consider splitting into smaller modules"
+    }
+  ]
+}

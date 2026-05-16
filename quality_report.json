@@ -1,0 +1,515 @@
+{
+  "generated_at": "2026-05-13T22:09:58.645054",
+  "overall_score": 800.0,
+  "overall_percentage": 100.0,
+  "overall_level": {
+    "score": 100,
+    "name": "EXCELLENT",
+    "description": "Excellent - Production ready, industry best practices"
+  },
+  "categories": {
+    "test_coverage": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "test_files_present",
+          "score": 10,
+          "max_score": 10,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_tests": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "unit_tests",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "unit_test_files": 24
+          },
+          "recommendations": []
+        },
+        {
+          "name": "integration_api_tests",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "api_test_files": 4
+          },
+          "recommendations": []
+        },
+        {
+          "name": "test_execution_quality",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "test_execution": "All tests passing"
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "modularity": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "directory_structure",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_core": true,
+            "has_api": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "module_exports",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_core_init": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "single_responsibility_modules",
+          "score": 40,
+          "max_score": 40,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "core_module_count": 27
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "configuration": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "config_file_exists",
+          "score": 40,
+          "max_score": 40,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_config": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "env_var_support",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": false,
+          "details": {
+            "has_env_support": false,
+            "has_env_example": true
+          },
+          "recommendations": [
+            "Add environment variable support"
+          ]
+        },
+        {
+          "name": "config_validation",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_validation": true
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "documentation": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "readme_exists",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_readme": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "additional_documentation",
+          "score": 40,
+          "max_score": 40,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_docs_dir": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "code_docstrings",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_docstrings": true
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "error_handling": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "error_resilience_module",
+          "score": 40,
+          "max_score": 40,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_error_resilience": true,
+            "has_error_codes": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "error_code_system",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_error_codes": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "retry_circuit_breaker",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_retry": true
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "monitoring": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "prometheus_metrics",
+          "score": 35,
+          "max_score": 35,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_metrics": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "health_checks",
+          "score": 35,
+          "max_score": 35,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_health": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "structured_logging",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_structured_logging": true
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "security": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "security_module",
+          "score": 50,
+          "max_score": 50,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_security": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "secret_handling",
+          "score": 30,
+          "max_score": 30,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_env_example": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "rate_limiting",
+          "score": 20,
+          "max_score": 20,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_rate_limiter": true
+          },
+          "recommendations": []
+        }
+      ]
+    },
+    "devops": {
+      "score": 100,
+      "max_score": 100,
+      "percentage": 100.0,
+      "level": {
+        "score": 100,
+        "name": "EXCELLENT",
+        "description": "Excellent - Production ready, industry best practices"
+      },
+      "metrics": [
+        {
+          "name": "docker_support",
+          "score": 40,
+          "max_score": 40,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_dockerfile": true,
+            "has_docker_compose": true
+          },
+          "recommendations": []
+        },
+        {
+          "name": "cicd_pipeline",
+          "score": 35,
+          "max_score": 35,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_github_actions": true,
+            "has_gitlab_ci": false
+          },
+          "recommendations": []
+        },
+        {
+          "name": "code_examples",
+          "score": 25,
+          "max_score": 25,
+          "percentage": 100.0,
+          "level": {
+            "score": 100,
+            "name": "EXCELLENT",
+            "description": "Excellent - Production ready, industry best practices"
+          },
+          "passed": true,
+          "details": {
+            "has_examples": true
+          },
+          "recommendations": []
+        }
+      ]
+    }
+  }
+}

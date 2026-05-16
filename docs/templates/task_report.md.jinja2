@@ -1,0 +1,51 @@
+# 代码修改任务报告
+
+## 任务概述
+- **任务ID**: {{ task_id }}
+- **用户需求**: {{ user_requirement }}
+- **执行时间**: {{ execute_time }}
+- **迭代次数**: {{ iteration }}
+
+## 统计信息
+- **修改文件数**: {{ stats.total_files_modified }}
+- **成功修改**: {{ stats.successful_changes }}
+- **失败修改**: {{ stats.failed_changes }}
+- **测试用例数**: {{ stats.total_tests }}
+- **通过测试**: {{ stats.passed_tests }}
+- **失败测试**: {{ stats.failed_tests }}
+- **代码覆盖率**: {{ stats.total_coverage | default(0) | round(1) }}%
+
+## 代码修改清单
+
+{% for change in code_changes %}
+### {{ loop.index }}. {{ change.file_path }}
+- **修改类型**: {{ change.modification_type }}
+- **说明**: {{ change.description }}
+- **差异**: {{ change.diff_content }}
+{% if change.full_code %}
+```{{ change.language }}
+{{ change.full_code }}
+```
+{% endif %}
+
+{% endfor %}
+
+## 测试用例与执行结果
+
+{% for test in test_cases %}
+### {{ test.test_name }}
+- **测试文件**: {{ test.test_file_path }}
+- **执行结果**: {{ test.result }}
+{% if test.error %}
+- **错误**: {{ test.error }}
+{% endif %}
+
+{% endfor %}
+
+## 测试覆盖率报告
+- **总覆盖率**: {{ coverage.total_coverage | default(0) | round(1) }}%
+- **修改代码覆盖率**: {{ coverage.modified_code_coverage | default(0) | round(1) }}%
+
+---
+
+*报告生成时间: {{ execute_time }}*
