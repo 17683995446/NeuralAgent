@@ -161,6 +161,9 @@ class UnifiedMemorySystem:
     
     async def store(self, key: str, value: Any, ttl: Optional[int] = None):
         """存储记忆"""
+        if not key:
+            raise ValueError("键不能为空")
+        
         entry = MemoryEntry(
             key=key,
             value=value,
@@ -169,17 +172,26 @@ class UnifiedMemorySystem:
         await self.backend.set(key, entry, ttl)
         logger.debug(f"已存储记忆: {key}")
     
-    async def retrieve(self, key: str) -> Optional[MemoryEntry]:
-        """检索记忆"""
-        return await self.backend.get(key)
+    async def retrieve(self, key: str) -> Optional[Any]:
+        """检索记忆（直接返回值）"""
+        if not key:
+            return None
+        
+        entry = await self.backend.get(key)
+        if entry and isinstance(entry, MemoryEntry):
+            return entry.value
+        return entry
     
     async def remove(self, key: str):
         """移除记忆"""
-        await self.backend.delete(key)
-        logger.debug(f"已移除记忆: {key}")
+        if key:
+            await self.backend.delete(key)
+            logger.debug(f"已移除记忆: {key}")
     
     async def has(self, key: str) -> bool:
         """检查记忆是否存在"""
+        if not key:
+            return False
         return await self.backend.exists(key)
 
 

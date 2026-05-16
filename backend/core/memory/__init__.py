@@ -8,10 +8,25 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# 导入旧模块（保持兼容）
-from .enhanced_memory_system import EnhancedMemorySystem
-from .short_term_memory import ShortTermMemory
-from .long_term_memory import LongTermMemory
+# 导入旧模块（保持兼容）- 安全导入，避免强制依赖redis
+EnhancedMemorySystem = None
+ShortTermMemory = None
+LongTermMemory = None
+
+try:
+    from .enhanced_memory_system import EnhancedMemorySystem
+except Exception as e:
+    logger.debug(f"EnhancedMemorySystem not available: {e}")
+
+try:
+    from .short_term_memory import ShortTermMemory
+except Exception as e:
+    logger.debug(f"ShortTermMemory not available (requires redis): {e}")
+
+try:
+    from .long_term_memory import LongTermMemory
+except Exception as e:
+    logger.debug(f"LongTermMemory not available: {e}")
 
 # 导入新的统一模块
 from .unified_memory import (

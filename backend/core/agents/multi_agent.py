@@ -56,8 +56,8 @@ class AgentConfig:
 class AgentTask:
     """Agent任务"""
     task_id: str
-    description: str
-    assigned_agent: str
+    description: Optional[str] = None
+    assigned_agent: Optional[str] = None
     status: TaskStatus = TaskStatus.PENDING
     priority: int = 5
     deadline: Optional[datetime] = None
@@ -66,6 +66,9 @@ class AgentTask:
     error: Optional[str] = None
     started_at: Optional[datetime] = None
     completed_at: Optional[datetime] = None
+    # 新增字段，兼容旧接口
+    task_type: str = "reasoning"
+    data: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -162,6 +165,12 @@ class MultiAgentOrchestrator:
         """设置回调"""
         self.callback = callback
         return self
+    
+    async def orchestrate_task(self, task: AgentTask, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """协调单个任务（兼容接口）"""
+        self.add_task(task)
+        result = await self.execute(context or {})
+        return result
     
     async def execute(self, initial_context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """执行所有任务"""
