@@ -38,26 +38,49 @@ class MemoryBackend(ABC):
 
 
 class InMemoryBackend(MemoryBackend):
-    """内存存储后端（不依赖 Redis）"""
+    """内存存储后端（不依赖 Redis）- 优化版"""
     
-    def __init__(self):
+    def __init__(self, max_size: int = 100000, auto_cleanup_interval: int = 100):
         self._storage: Dict[str, Any] = {}
         self._ttls: Dict[str, datetime] = {}
-        logger.info("InMemoryBackend 初始化完成")
+        self._max_size = max_size
+        self._auto_cleanup_interval = auto_cleanup_interval
+        self._operation_count = 0
+        logger.info(f"InMemoryBackend 初始化完成 (max_size={max_size})")
     
-    def _cleanup_ttl(self):
-        """清理过期条目"""
+    def _cleanup_ttl(self, force: bool = False):
+        """清理过期条目 - 优化：避免频繁清理"""
+        self._operation_count += 1
+        
+        if not force and self._operation_count % self._auto_cleanup_interval != 0:
+            return
+        
         now = datetime.now()
-        expired = [k for k, v in self._ttls.items() if v < now]
+        expired = [k for k, v in list(self._ttls.items()) if v < now]
         for k in expired:
-            del self._storage[k]
-            del self._ttls[k]
+            if k in self._storage:
+                del self._storage[k]
+            if k in self._ttls:
+                del self._ttls[k]
+    
+    def _enforce_size_limit(self):
+        """强制大小限制 - 移除最老的条目"""
+        if len(self._storage) >= self._max_size:
+            excess = len(self._storage) - self._max_size // 2
+            keys_to_remove = list(self._storage.keys())[:excess]
+            for k in keys_to_remove:
+                if k in self._storage:
+                    del self._storage[k]
+                if k in self._ttls:
+                    del self._ttls[k]
+            logger.warning(f"Storage limit reached, removed {excess} oldest entries")
     
     async def get(self, key: str) -> Optional[Any]:
         self._cleanup_ttl()
         return self._storage.get(key)
     
     async def set(self, key: str, value: Any, ttl: Optional[int] = None):
+        self._enforce_size_limit()
         self._storage[key] = value
         if ttl:
             self._ttls[key] = datetime.now() + timedelta(seconds=ttl)
@@ -71,6 +94,22 @@ class InMemoryBackend(MemoryBackend):
     async def exists(self, key: str) -> bool:
         self._cleanup_ttl()
         return key in self._storage
+    
+    def get_stats(self) -> Dict[str, Any]:
+        """获取存储统计信息"""
+        return {
+            "size": len(self._storage),
+            "max_size": self._max_size,
+            "ttl_count": len(self._ttls),
+            "utilization": len(self._storage) / self._max_size if self._max_size > 0 else 0
+        }
+    
+    def clear(self):
+        """清空所有存储"""
+        self._storage.clear()
+        self._ttls.clear()
+        self._operation_count = 0
+        logger.info("Storage cleared")
 
 
 class RedisBackend(MemoryBackend):
