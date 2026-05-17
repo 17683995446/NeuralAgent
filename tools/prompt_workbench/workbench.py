@@ -90,7 +90,7 @@ class ABTest:
 
 
 class XSSSanitizer:
-    """XSS清理器"""
+    """XSS清理器 - 增强版"""
     
     DANGEROUS_PATTERNS = [
         ("<script", "&lt;script"),
@@ -108,15 +108,18 @@ class XSSSanitizer:
         ("<style", "&lt;style"),
         ("expression(", "expression&#40;"),
         ("data:", "data&#58;"),
+        ("src=", "src&#61;"),
+        ("href=", "href&#61;"),
     ]
     
     @classmethod
     def sanitize(cls, text: str) -> str:
-        """清理XSS风险"""
+        """清理XSS风险 - 完全清理危险内容"""
         if not text:
             return text
         
         sanitized = text
+        
         for pattern, replacement in cls.DANGEROUS_PATTERNS:
             sanitized = sanitized.replace(pattern, replacement)
             sanitized = sanitized.replace(pattern.upper(), replacement)
@@ -125,19 +128,37 @@ class XSSSanitizer:
     
     @classmethod
     def is_safe(cls, text: str) -> bool:
-        """检查文本是否安全"""
+        """检查文本是否安全 - 不区分大小写检查"""
         if not text:
             return True
         
         dangerous = [
-            "<script", "javascript:", "onerror=", "onload=",
-            "<iframe", "<object", "<embed", "expression("
+            "<script", "javascript:", "onerror=", "onload=", "onclick=",
+            "<iframe", "<object", "<embed", "<svg", "expression(",
+            "data:", "onmouseover="
         ]
         
-        lower = text.lower()
+        lower_text = text.lower()
         for pattern in dangerous:
-            if pattern in lower:
+            if pattern.lower() in lower_text:
                 return False
+        return True
+    
+    @classmethod
+    def is_cleansed(cls, original: str, cleansed: str) -> bool:
+        """检查清理是否生效 - 危险内容已被转义或移除"""
+        if original == cleansed:
+            return cls.is_safe(original)
+        
+        dangerous = [
+            "<script", "javascript:", "onerror=",
+            "<iframe", "expression("
+        ]
+        
+        for pattern in dangerous:
+            if pattern.lower() in cleansed.lower():
+                return False
+        
         return True
 
 

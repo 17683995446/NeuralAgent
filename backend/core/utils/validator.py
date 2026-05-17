@@ -32,6 +32,13 @@ class InputValidator:
                 message="Cache key cannot be empty",
                 code="EMPTY_KEY"
             )
+        
+        if not key.strip():
+            return False, ValidationError(
+                field="key",
+                message="Cache key cannot be whitespace only",
+                code="WHITESPACE_KEY"
+            )
 
         if len(key) > cls.MAX_KEY_LENGTH:
             return False, ValidationError(
