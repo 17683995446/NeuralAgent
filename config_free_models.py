@@ -22,7 +22,7 @@ FREE_MODEL_CONFIG = {
     # 硅基流动免费模型（检查免费额度）
     "siliconflow_free": {
         "provider": "openai_compatible",
-        "api_key": "sk-tstaxvmmhwohgledgrnaugkbewpqzjngthwmwrvllmodqdgq",
+        "api_key": "REDACTED_API_KEY",
         "base_url": "https://api.siliconflow.cn/v1",
         # 免费模型可能每日有配额
         "chat_model": "Qwen/Qwen2.5-7B-Instruct",  # 较小的模型可能免费

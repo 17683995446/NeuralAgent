@@ -13,7 +13,7 @@ SILICONFLOW_CONFIG = {
     "provider": "openai_compatible",
     
     # API 配置
-    "api_key": "sk-tstaxvmmhwohgledgrnaugkbewpqzjngthwmwrvllmodqdgq",
+    "api_key": "REDACTED_API_KEY",
     "base_url": "https://api.siliconflow.cn/v1",
     
     # 推荐模型

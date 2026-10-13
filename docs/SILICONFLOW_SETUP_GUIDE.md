@@ -59,10 +59,10 @@ Error: Sorry, your account balance is insufficient
 # 设置环境变量
 export LLM_PROVIDER="openai"
 export LLM_MODEL="Qwen/Qwen2.5-72B-Instruct"
-export LLM_API_KEY="sk-tstaxvmmhwohgledgrnaugkbewpqzjngthwmwrvllmodqdgq"
+export LLM_API_KEY="REDACTED_API_KEY"
 export LLM_BASE_URL="https://api.siliconflow.cn/v1"
 export LLM_EMBEDDING_MODEL="BAAI/bge-large-zh-v1.5"
-export OPENAI_API_KEY="sk-tstaxvmmhwohgledgrnaugkbewpqzjngthwmwrvllmodqdgq"
+export OPENAI_API_KEY="REDACTED_API_KEY"
 export OPENAI_API_BASE="https://api.siliconflow.cn/v1"
 
 # 运行测试

@@ -22,7 +22,7 @@ def run_cmd(cmd, cwd=None):
         return False, "", str(e)
 
 def main():
-    GITHUB_TOKEN = "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"
+    GITHUB_TOKEN = "REDACTED_GITHUB_TOKEN"
     REPO_NAME = "NeuralAgent"
     REPO_DESCRIPTION = "AI Agent System with 18-layer neural network architecture"
     

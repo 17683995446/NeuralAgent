@@ -7,7 +7,7 @@ import os
 import asyncio
 
 # 设置硅基流动配置
-os.environ["OPENAI_API_KEY"] = "sk-tstaxvmmhwohgledgrnaugkbewpqzjngthwmwrvllmodqdgq"
+os.environ["OPENAI_API_KEY"] = "REDACTED_API_KEY"
 os.environ["OPENAI_API_BASE"] = "https://api.siliconflow.cn/v1"
 
 
